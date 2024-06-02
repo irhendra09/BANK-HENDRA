@@ -2,6 +2,7 @@ package com.bank.service.impl;
 
 import com.bank.dto.request.SearchNasabahRequest;
 import com.bank.entity.Nasabah;
+import com.bank.exception.DuplicateNikException;
 import com.bank.repository.NasabahRepository;
 import com.bank.service.NasabahService;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,9 @@ public class NasabahServiceImpl implements NasabahService {
 
     @Override
     public Nasabah add(Nasabah nasabah) {
+        if (nasabahRepository.existsByNik(nasabah.getNik())) {
+            throw new DuplicateNikException("NIK " + nasabah.getNik() + " already exists");
+        }
         return nasabahRepository.save(nasabah);
     }
 

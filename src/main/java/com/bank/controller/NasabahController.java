@@ -5,6 +5,7 @@ import com.bank.dto.response.PagingResponse;
 import com.bank.dto.response.WebResponse;
 import com.bank.entity.Nasabah;
 import com.bank.service.NasabahService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,7 @@ public class NasabahController {
     private final NasabahService nasabahService;
 
     @PostMapping
-    public ResponseEntity<?> createNew(@RequestBody Nasabah nasabah) {
+    public ResponseEntity<?> createNew(@Valid @RequestBody Nasabah nasabah) {
         Nasabah newNasabah = nasabahService.add(nasabah);
         WebResponse<Nasabah> response = WebResponse.<Nasabah>builder()
                 .status(HttpStatus.CREATED.getReasonPhrase())
@@ -77,6 +78,7 @@ public class NasabahController {
                 .status(HttpStatus.OK.getReasonPhrase())
                 .message("successfully get nasabah")
                 .data(nasabahPage.getContent())
+                .paging(pagingResponse)
                 .build();
         return ResponseEntity.ok(response);
     }

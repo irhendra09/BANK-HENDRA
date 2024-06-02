@@ -1,6 +1,7 @@
 package com.bank.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 import java.util.Date;
@@ -17,6 +18,7 @@ public class Nasabah {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
+    @Pattern(regexp = "\\d{16}", message = "NIK harus terdiri dari 16 digit angka")
     @Column(unique=true, name = "NIK", nullable=false)
     private String nik;
 
